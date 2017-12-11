@@ -21,35 +21,35 @@
 
 #include "Utils/DebugUtils.h"
 
-LCID::LCID() :
+WHLCID::WHLCID() :
     primaryLanguageID(0), subLanguageID(0), sortID(0), sortVersion(0)
 {
-    PRINT_DBG("LCID default constructor");
+    PRINT_DBG("WHLCID default constructor");
 }
 
-LCID::LCID(quint16 primaryLanguageID, quint8 subLanguageID, quint8 sortID,
+WHLCID::WHLCID(quint16 primaryLanguageID, quint8 subLanguageID, quint8 sortID,
     quint8 sortVersion) :
     primaryLanguageID(primaryLanguageID), subLanguageID(subLanguageID), sortID(
     sortID), sortVersion(sortVersion)
 {
-    PRINT_DBG("LCID constructor");
+    PRINT_DBG("WHLCID constructor");
 }
 
-LCID::LCID(const LCID& rhs) :
+WHLCID::WHLCID(const WHLCID& rhs) :
     primaryLanguageID(rhs.primaryLanguageID), subLanguageID(rhs.subLanguageID),
     sortID(rhs.sortID), sortVersion(rhs.sortVersion)
 {
-    PRINT_DBG("LCID copy constructor");
+    PRINT_DBG("WHLCID copy constructor");
 }
 
-LCID::~LCID()
+WHLCID::~WHLCID()
 {
-    PRINT_DBG("LCID destructor");
+    PRINT_DBG("WHLCID destructor");
 }
 
-LCID & LCID::operator=(const LCID & rhs)
+WHLCID & WHLCID::operator=(const WHLCID & rhs)
 {
-    PRINT_DBG("LCID assignment operator");
+    PRINT_DBG("WHLCID assignment operator");
     if (this != &rhs)
     {
         this->primaryLanguageID = rhs.primaryLanguageID;
@@ -60,22 +60,22 @@ LCID & LCID::operator=(const LCID & rhs)
     return *this;
 }
 
-quint16 LCID::getPrimaryLanguageID() const
+quint16 WHLCID::getPrimaryLanguageID() const
 {
     return primaryLanguageID;
 }
 
-quint8 LCID::getSubLanguageID() const
+quint8 WHLCID::getSubLanguageID() const
 {
     return subLanguageID;
 }
 
-quint8 LCID::getSortID() const
+quint8 WHLCID::getSortID() const
 {
     return sortID;
 }
 
-quint8 LCID::getSortVersion() const
+quint8 WHLCID::getSortVersion() const
 {
     return sortVersion;
 }

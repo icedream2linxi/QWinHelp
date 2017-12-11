@@ -28,7 +28,7 @@
 class LCIDRecord
 {
 private:
-    LCID lcid;
+    WHLCID lcid;
     /** При сортировке Keywords игнорировать Non Spacing Marks в текстах без учета регистра символов, бит с маской 0x02 в соответствующем байте флагов. */
     bool ignoreNonSpacingMarksCaseInsensitive;
     /** При сортировке Keywords игнорировать Symbols (знаки препинания и т.п.) в текстах без учета регистра символов, бит с маской 0x04 в соответствующем байте флагов. */
@@ -43,7 +43,7 @@ public:
     LCIDRecord(const LCIDRecord& rhs);
     virtual ~LCIDRecord();
     LCIDRecord & operator=(const LCIDRecord & rhs);
-    LCID getLCID() const;
+    WHLCID getLCID() const;
     bool isIgnoreNonSpacingMarksCaseInsensitive() const;
     bool isIgnoreSymbolsCaseInsensitive() const;
     bool isIgnoreNonSpacingMarksCaseSensitive() const;

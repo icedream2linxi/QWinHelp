@@ -32,97 +32,97 @@ LCIDRecord::LCIDRecord() :
     ignoreNonSpacingMarksCaseSensitive(false),
     ignoreSymbolsCaseSensitive(false)
 {
-    PRINT_DBG("LCID record default constructor");
+    PRINT_DBG("WHLCID record default constructor");
 }
 
 LCIDRecord::LCIDRecord(QFile &file, qint64 off)
 {
-    PRINT_DBG("Reading LCID record at %lld", off);
+    PRINT_DBG("Reading WHLCID record at %lld", off);
     seekFile(file, off);
     SystemRecordHeader hdr(file, off);
     if (hdr.getRecordSize() == Q_INT64_C(10))
     {
         quint8 sortFlagsCaseInsensitive = readUnsignedByte(file);
-        PRINT_DBG("        LCID record sort flags case insensitive: %d",
+        PRINT_DBG("        WHLCID record sort flags case insensitive: %d",
             sortFlagsCaseInsensitive);
         quint8 sortFlagsCaseSensitive = readUnsignedByte(file);
-        PRINT_DBG("        LCID record sort flags case sensitive: %d",
+        PRINT_DBG("        WHLCID record sort flags case sensitive: %d",
             sortFlagsCaseSensitive);
         ignoreNonSpacingMarksCaseInsensitive = false;
         if ((sortFlagsCaseInsensitive & 0x02) != 0)
         {
             ignoreNonSpacingMarksCaseInsensitive = true;
             PRINT_DBG(
-                "        LCID record ignore non spacing marks case insensitive is set.");
+                "        WHLCID record ignore non spacing marks case insensitive is set.");
         }
         ignoreSymbolsCaseInsensitive = false;
         if ((sortFlagsCaseInsensitive & 0x04) != 0)
         {
             ignoreSymbolsCaseInsensitive = true;
             PRINT_DBG(
-                "        LCID record ignore symbols case insensitive is set.");
+                "        WHLCID record ignore symbols case insensitive is set.");
         }
         ignoreNonSpacingMarksCaseSensitive = false;
         if ((sortFlagsCaseSensitive & 0x02) != 0)
         {
             ignoreNonSpacingMarksCaseSensitive = true;
             PRINT_DBG(
-                "        LCID record ignore non spacing marks case sensitive is set.");
+                "        WHLCID record ignore non spacing marks case sensitive is set.");
         }
         ignoreSymbolsCaseSensitive = false;
         if ((sortFlagsCaseSensitive & 0x04) != 0)
         {
             ignoreSymbolsCaseSensitive = true;
             PRINT_DBG(
-                "        LCID record ignore symbols case sensitive is set.");
+                "        WHLCID record ignore symbols case sensitive is set.");
         }
         for (qint64 index = Q_INT64_C(2); index < (hdr.getRecordSize()
                 - Q_INT64_C(2)); index++)
         {
             quint8 unknown = readUnsignedByte(file);
-            PRINT_DBG("        LCID record unknown byte: %d", unknown);
+            PRINT_DBG("        WHLCID record unknown byte: %d", unknown);
         }
         quint8 lcidRawL = readUnsignedByte(file);
-        PRINT_DBG("        LCID record LCID low byte: %d", lcidRawL);
+        PRINT_DBG("        WHLCID record WHLCID low byte: %d", lcidRawL);
         quint8 lcidRawH = readUnsignedByte(file);
-        PRINT_DBG("        LCID record LCID high byte: %d", lcidRawH);
+        PRINT_DBG("        WHLCID record WHLCID high byte: %d", lcidRawH);
         quint16 primaryLanguageID = static_cast<quint16> (lcidRawL) + 256
             * static_cast<quint16> (lcidRawH & 0x03);
-        PRINT_DBG("        LCID record primary language id: %d",
+        PRINT_DBG("        WHLCID record primary language id: %d",
             primaryLanguageID);
         quint8 subLanguageID = (((lcidRawH & 0xFC) >> 2) & 0x3F);
-        PRINT_DBG("        LCID record sub language id: %d", subLanguageID);
-        this->lcid = LCID(primaryLanguageID, subLanguageID, 0, 0);
+        PRINT_DBG("        WHLCID record sub language id: %d", subLanguageID);
+        this->lcid = WHLCID(primaryLanguageID, subLanguageID, 0, 0);
     }
     else
     {
-        qDebug() << "Strange LCID record, using some workaround.";
+        qDebug() << "Strange WHLCID record, using some workaround.";
         ignoreNonSpacingMarksCaseInsensitive = false;
         ignoreSymbolsCaseInsensitive = false;
         ignoreNonSpacingMarksCaseSensitive = false;
         ignoreSymbolsCaseSensitive = false;
         quint8 lcidRaw0 = readUnsignedByte(file);
-        PRINT_DBG("        LCID record LCID byte 0: %d", lcidRaw0);
+        PRINT_DBG("        WHLCID record WHLCID byte 0: %d", lcidRaw0);
         quint8 lcidRaw1 = readUnsignedByte(file);
-        PRINT_DBG("        LCID record LCID byte 1: %d", lcidRaw1);
+        PRINT_DBG("        WHLCID record WHLCID byte 1: %d", lcidRaw1);
         quint8 lcidRaw2 = readUnsignedByte(file);
-        PRINT_DBG("        LCID record LCID byte 2: %d", lcidRaw2);
+        PRINT_DBG("        WHLCID record WHLCID byte 2: %d", lcidRaw2);
         quint8 lcidRaw3 = readUnsignedByte(file);
-        PRINT_DBG("        LCID record LCID byte 3: %d", lcidRaw3);
+        PRINT_DBG("        WHLCID record WHLCID byte 3: %d", lcidRaw3);
         quint16 primaryLanguageID = static_cast<quint16> (lcidRaw0) + 256
             * static_cast<quint16> (lcidRaw1 & 0x03);
-        PRINT_DBG("        LCID record primary language id: %d",
+        PRINT_DBG("        WHLCID record primary language id: %d",
             primaryLanguageID);
         quint8 subLanguageID = (((lcidRaw1 & 0xFC) >> 2) & 0x3F);
-        PRINT_DBG("        LCID record sub language id: %d", subLanguageID);
+        PRINT_DBG("        WHLCID record sub language id: %d", subLanguageID);
         quint8 sortID = lcidRaw2 & 0x0F;
-        PRINT_DBG("        LCID record sort id: %d", sortID);
+        PRINT_DBG("        WHLCID record sort id: %d", sortID);
         quint8 sortVersion = (((lcidRaw2 & 0xF0) >> 4) & 0x0F);
-        PRINT_DBG("        LCID record sort version: %d", sortVersion);
+        PRINT_DBG("        WHLCID record sort version: %d", sortVersion);
         this->lcid
-            = LCID(primaryLanguageID, subLanguageID, sortID, sortVersion);
+            = WHLCID(primaryLanguageID, subLanguageID, sortID, sortVersion);
     }
-    PRINT_DBG("LCID record loaded successfully");
+    PRINT_DBG("WHLCID record loaded successfully");
 }
 
 LCIDRecord::LCIDRecord(const LCIDRecord& rhs) :
@@ -133,17 +133,17 @@ LCIDRecord::LCIDRecord(const LCIDRecord& rhs) :
     rhs.ignoreNonSpacingMarksCaseSensitive),
     ignoreSymbolsCaseSensitive(rhs.ignoreSymbolsCaseSensitive)
 {
-    PRINT_DBG("LCID record copy constructor");
+    PRINT_DBG("WHLCID record copy constructor");
 }
 
 LCIDRecord::~LCIDRecord()
 {
-    PRINT_DBG("LCID record destructor");
+    PRINT_DBG("WHLCID record destructor");
 }
 
 LCIDRecord & LCIDRecord::operator=(const LCIDRecord & rhs)
 {
-    PRINT_DBG("LCID record assignment operator");
+    PRINT_DBG("WHLCID record assignment operator");
     if (this != &rhs)
     {
         this->lcid = rhs.lcid;
@@ -157,7 +157,7 @@ LCIDRecord & LCIDRecord::operator=(const LCIDRecord & rhs)
     return *this;
 }
 
-LCID LCIDRecord::getLCID() const
+WHLCID LCIDRecord::getLCID() const
 {
     return lcid;
 }

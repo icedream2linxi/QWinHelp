@@ -220,7 +220,7 @@ enum SortID : quint8
     SORT_GEORGIAN_MODERN = 0x1
 };
 
-class LCID
+class WHLCID
 {
 private:
     /** Значение идентификатора языка, 10 бит. */
@@ -232,14 +232,14 @@ private:
     /** Версия сортировки, 4 бита. */
     quint8 sortVersion;
 public:
-    LCID();
-    LCID(quint16 primaryLanguageID,
+    WHLCID();
+    WHLCID(quint16 primaryLanguageID,
         quint8 subLanguageID,
         quint8 sortID,
         quint8 sortVersion);
-    LCID(const LCID& rhs);
-    virtual ~LCID();
-    LCID & operator=(const LCID & rhs);
+    WHLCID(const WHLCID& rhs);
+    virtual ~WHLCID();
+    WHLCID & operator=(const WHLCID & rhs);
     quint16 getPrimaryLanguageID() const;
     quint8 getSubLanguageID() const;
     quint8 getSortID() const;
